@@ -1,0 +1,23 @@
+from dataclasses import dataclass
+from typing import list
+
+class Question:
+    def initQuestion(self, text, multichoice, correct): #constructor to create a question
+        self.text = text
+        self.multichoice = multichoice
+        self.correct = correct 
+        self.answer = None #set after creation of the class
+
+    def checkAnswer(self): # returns a bool true if correct false if otherwise
+        if(self.answer == self.correct):
+            return True
+        else:
+            return False
+
+
+class Session:
+    def initSession(self, questions): #constructor to setup Session
+        self.questions = questions
+    def getScore(self):
+        score = sum(2 for question in self.questions if question.checkAnswer) #adds 2 point per correct question, uses function checkAnswer to make sure each question is correct
+        return score
