@@ -1,5 +1,5 @@
 import streamlit as sl
-from Quiz import Sesion, Questions
+from Quiz.Models import Session, Question
 #from Quiz import
 #from Quiz import 
 

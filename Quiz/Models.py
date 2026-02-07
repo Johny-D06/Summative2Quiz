@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import list
 
 class Question:
     def initQuestion(self, text, multichoice, correct): #constructor to create a question
