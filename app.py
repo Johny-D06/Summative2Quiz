@@ -1,6 +1,8 @@
 import streamlit as sl
 from Quiz.Models import Session, Question
 
+filename = "../QuizData/Questions.csv" #uplevels using .. then uses relative folder and file
+
 #run command: cd "D:\Users\jonat\Documents\Personal\Uni\Coding\Computer Science Module\Summative 2 Code"
 #run command: streamlit run app.py
 
