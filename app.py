@@ -9,5 +9,5 @@ sl.write()
 username = sl.text_input("Enter Name: ") #get name and set to username var
 
 
-difficultylist = ["dif 1", "dif 2", "dif 3", "dif 4"]
-difficulty = sl.select_slider("Select Difficulty", difficultylist) #change to Question.getDifficultiesAsList
+# difficultylist = [1, 2, 3, 4] test
+difficulty = sl.select_slider("Select Difficulty", Question.getDifficultiesAsList) #change to Question.getDifficultiesAsList
