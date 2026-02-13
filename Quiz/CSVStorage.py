@@ -3,7 +3,7 @@ from pathlib import Path
 
 class CSVWriter(): #will make in the form "question,answer,difficulty,topic"
 
-    def initCSVWriter(self, relativefilepath):
+    def __init__(self, relativefilepath):
         self.relativefilepath = relativefilepath
     
     def writeToFile(self, text): #writes in a line then moves to newline

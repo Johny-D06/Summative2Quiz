@@ -1,14 +1,16 @@
 from dataclasses import dataclass
-from CSVStorage import CSVWriter
+from Quiz.CSVStorage import CSVWriter
 
 class Question:
 
     allQuestions = []
 
-    def initQuestion(self, text, answers, difficulty): #constructor to create a question, will get from csv file
+    def __init__(self, text, subject, answers, answernum): #constructor to create a question, will get from csv file
         self.text = text
+        self,subject
         self.answers = answers
-        self.difficulty = difficulty #should be at least 1
+        self.answernum = answernum
+        #self.difficulty = difficulty #should be at least 1
         Question.allQuestions.append(self)
 
     def checkAnswer(self, useranswer): # returns a bool true if correct false if otherwise
@@ -35,13 +37,9 @@ class Question:
 
         return difficultylist
     
-    def addQuestion(csvs: CSVWriter):
-        questionanswers = []
-        questiontext = input("Enter Question Text: ")
-        for i in range (3):
-            questionanswers.append(input(f"Enter Choice {i}: "))
-        questionsubject = input(f"Enter the Question Subject: ")
-        csvs.writeToFile(f"{questiontext},{questionanswers[0]},{questionanswers[1]},{questionanswers[2]}")
+    def addQuestion(csvs: CSVWriter, questiontext, questionsubject, questionanswers, questionanswernum):
+        csvs.writeToFile(f"{questiontext},{questionsubject},{questionanswers[0]},{questionanswers[1]},{questionanswers[2]},{questionanswernum}")
+        temp = Question(text=questiontext, )
         
 
 
