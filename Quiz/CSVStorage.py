@@ -23,6 +23,6 @@ class CSVReader():
                 qsubj = line[1]
                 qans = line[2:5]
                 qansnum = qans.index(line[5])
-                qdif = int(line[6])
+                qdif = int(line[6].replace("Difficulty ", "")) #remove difficulty from the line, not sure why its doing this? csv stores as 'n'?
                 tempquestion = Question(text=qtext, subject=qsubj, answers=qans, answernum=qansnum, difficulty=qdif)
                 #questions.append(tempquestion) #should not need to append due to the constructor on Question

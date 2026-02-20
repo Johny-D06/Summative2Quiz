@@ -10,7 +10,7 @@ class Question:
         self,subject
         self.answers = answers
         self.answernum = answernum
-        self.difficulty = difficulty
+        self.difficulty = int(difficulty)
         #self.difficulty = difficulty #should be at least 1
         Question.allQuestions.append(self)
 
@@ -28,7 +28,7 @@ class Question:
     def  getMaxDifficulty(): #checks every question to get the highest difficulty rating
         temp = 0
         for question in Question.allQuestions:
-            if question.difficulty > 0:
+            if question.difficulty > temp:
                 temp = question.difficulty
         return temp
     
@@ -38,7 +38,7 @@ class Question:
         count = 0
         while len(difficultylist) < Question.getMaxDifficulty(): #adds a number to the list
             count += 1
-            difficultylist.append(f"Difficulty {count}")
+            difficultylist.append(count)
 
         return difficultylist
     
@@ -55,11 +55,16 @@ class Session:
     sessionQuestions = []
 
     def __init__(self, userdifficulty): #constructor to setup Session
+        self.correctanswers = [] #instantiated for future class
         self.sessionQuestions = [] #instantiated
         for question in Question.allQuestions: #checks through each question in existence and adds it only if the difficulty level is qual to or less than what is set
-            if(question.difficulty <= userdifficulty):
+            if(int(question.difficulty) <= int(userdifficulty)):
                 self.sessionQuestions.append(question)
 
     def getScore(self):
         score = sum(2 for question in self.questions if question.checkAnswer) #adds 2 point per correct question, uses function checkAnswer to make sure each question is correct
         return score
+
+    def addCorrectQuestion(self, correctquestion):        
+        self.correctanswers.append(correctquestion)
+

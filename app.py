@@ -7,7 +7,11 @@ filename = "QuizData/Questions.csv" #uplevels using .. then uses relative folder
 #run command: cd "D:\Users\jonat\Documents\Personal\Uni\Coding\Computer Science Module\Summative 2 Code"
 #run command: streamlit run app.py
 
+if "beginquiz" not in sl.session_state:
+            sl.session_state.beginquiz = False
+
 csvs = CSVWriter(filename)
+Question.allQuestions = []
 Question.loadAllQuestions(filename)
 
 sl.title("Networking Fundamentals Quiz") #title on browser
@@ -53,10 +57,10 @@ if sl.session_state.next:
         #username = sl.text_input("Enter Name: ") #get name and set to username var
         # difficultylist = [1, 2, 3, 4] test
 
-        if "beginquiz" not in sl.session_state:
-            sl.session_state.beginquiz = False
+        #if "beginquiz" not in sl.session_state:
+        #    sl.session_state.beginquiz = False
 
-        selecteddifficulty = 0
+        #selecteddifficulty = 0
 
         if not sl.session_state.beginquiz:
             name = sl.text_input("Enter Name")
@@ -77,14 +81,25 @@ if sl.session_state.next:
 
 
             if sl.session_state.questionindex >= len(CurrentSession.sessionQuestions):
+                #sl.write(f"lentest: {len(CurrentSession.sessionQuestions)}") #debug purposes
+                #sl.write(f"lentest: {len(Question.allQuestions)}") #debug purposes
                 sl.write("Quiz Over")
+                sl.write("")
+                sl.write("Correct answers:")
+                for q in CurrentSession.correctanswers: #grabs all correct answers
+                    sl.write(f"{q.text} | {q.answer}") #writes all questions and answers that were correct
+                
+                sl.session_state.beginquiz = False
                 sl.stop()
 
-            currentquestion = CurrentSession.sessionQuestions[sl.session_state.questionindex]
-            sl.write(currentquestion.text)
-            useranswer = sl.radio("Choose", currentquestion.answers)
+            currentquestion = CurrentSession.sessionQuestions[sl.session_state.questionindex] #local var set to the session var
+            sl.write(currentquestion.text) #writes q out
+            useranswer = sl.radio("Choose", currentquestion.answers) #selection box for the answers
+            if(useranswer == currentquestion.answernum): # answer correct
+                CurrentSession.addCorrectQuestion(CurrentSession.sessionQuestions[sl.session_state.questionindex])
 
-            if sl.button("Next Question"):
-                sl.session_state.questionindex += 1
-                sl.rerun()            
+
+            if sl.button("Next Question"): #shows button for next question
+                sl.session_state.questionindex += 1 #increments to the next question in the active session
+                sl.rerun()
                 
