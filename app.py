@@ -38,15 +38,53 @@ if sl.session_state.next:
 
         questioncorrectopt = sl.selectbox("Choose which multi choice answer is correct: ", [sl.session_state.questionanswers[0], sl.session_state.questionanswers[1], sl.session_state.questionanswers[2]], key="c")
 
+        difficulties = [1, 2, 3, 4]
+        questiondifficulty = sl.select_slider("Difficulty", difficulties)
+
         if (sl.button("Add Question")):
             sl.session_state.addq = True
 
         if (sl.session_state.addq):
             sl.session_state.addq = False
-            Question.addQuestion(csvs, questiontext, questiondesc, sl.session_state.questionanswers, questioncorrectopt)    
+            Question.addQuestion(csvs, questiontext, questiondesc, sl.session_state.questionanswers, questioncorrectopt, questiondifficulty)    
             sl.success
         
     else:
-        username = sl.text_input("Enter Name: ") #get name and set to username var
+        #username = sl.text_input("Enter Name: ") #get name and set to username var
         # difficultylist = [1, 2, 3, 4] test
-        difficulty = sl.select_slider("Select Difficulty", Question.getDifficultiesAsList) #change to Question.getDifficultiesAsList
+
+        if "beginquiz" not in sl.session_state:
+            sl.session_state.beginquiz = False
+
+        selecteddifficulty = 0
+
+        if not sl.session_state.beginquiz:
+            name = sl.text_input("Enter Name")
+            selecteddifficulty = sl.select_slider("Select Difficulty", Question.getDifficultiesAsList()) #change to Question.getDifficultiesAsList 
+
+            if sl.button("Begin Quiz"):
+                sl.session_state.beginquiz = True
+                sl.session_state.selecteddifficulty = selecteddifficulty
+        else:            
+
+            if "session" not in sl.session_state:
+                sl.session_state.session = Session(sl.session_state.selecteddifficulty)
+
+            CurrentSession = sl.session_state.session
+            
+            if ("questionindex" not in sl.session_state):
+                sl.session_state.questionindex = 0
+
+
+            if sl.session_state.questionindex >= len(CurrentSession.sessionQuestions):
+                sl.write("Quiz Over")
+                sl.stop()
+
+            currentquestion = CurrentSession.sessionQuestions[sl.session_state.questionindex]
+            sl.write(currentquestion.text)
+            useranswer = sl.radio("Choose", currentquestion.answers)
+
+            if sl.button("Next Question"):
+                sl.session_state.questionindex += 1
+                sl.rerun()            
+                

@@ -5,16 +5,18 @@ class Question:
 
     allQuestions = []
 
-    def __init__(self, text, subject, answers, answernum): #constructor to create a question, will get from csv file
+    def __init__(self, text, subject, answers, answernum, difficulty): #constructor to create a question, will get from csv file
         self.text = text
         self,subject
         self.answers = answers
         self.answernum = answernum
+        self.difficulty = difficulty
         #self.difficulty = difficulty #should be at least 1
         Question.allQuestions.append(self)
 
     def loadAllQuestions(filename):
-        CSVReader.readFromFile(filename)
+        csvr = CSVReader()
+        csvr.readQuestionFromFile(filenameloc=filename)
 
     def checkAnswer(self, useranswer): # returns a bool true if correct false if otherwise
         if(useranswer == self.answer):
@@ -34,15 +36,15 @@ class Question:
         difficultylist = []
 
         count = 0
-        while difficultylist.count() < Question.getMaxDifficulty(): #adds a number to the list
+        while len(difficultylist) < Question.getMaxDifficulty(): #adds a number to the list
             count += 1
             difficultylist.append(f"Difficulty {count}")
 
         return difficultylist
     
-    def addQuestion(csvs: CSVWriter, questiontext, questionsubject, questionanswers, questionanswernum):
-        csvs.writeToFile(f"{questiontext},{questionsubject},{questionanswers[0]},{questionanswers[1]},{questionanswers[2]},{questionanswernum}")
-        temp = Question(text=questiontext, subject=questionsubject, answers=questionanswers, answernum=questionanswernum)
+    def addQuestion(csvs: CSVWriter, questiontext, questionsubject, questionanswers, questionanswernum, questiondifficulty):
+        csvs.writeToFile(f"{questiontext},{questionsubject},{questionanswers[0]},{questionanswers[1]},{questionanswers[2]},{questionanswernum},{questiondifficulty}")
+        temp = Question(text=questiontext, subject=questionsubject, answers=questionanswers, answernum=questionanswernum, difficulty=questiondifficulty)
         
 
 
@@ -52,10 +54,11 @@ class Session:
     
     sessionQuestions = []
 
-    def initSession(self, userdifficulty): #constructor to setup Session
+    def __init__(self, userdifficulty): #constructor to setup Session
+        self.sessionQuestions = [] #instantiated
         for question in Question.allQuestions: #checks through each question in existence and adds it only if the difficulty level is qual to or less than what is set
             if(question.difficulty <= userdifficulty):
-                self.sessionQuestions += question
+                self.sessionQuestions.append(question)
 
     def getScore(self):
         score = sum(2 for question in self.questions if question.checkAnswer) #adds 2 point per correct question, uses function checkAnswer to make sure each question is correct
