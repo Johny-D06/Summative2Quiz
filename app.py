@@ -8,6 +8,7 @@ filename = "QuizData/Questions.csv" #uplevels using .. then uses relative folder
 #run command: streamlit run app.py
 
 csvs = CSVWriter(filename)
+Question.loadAllQuestions(filename)
 
 sl.title("Networking Fundamentals Quiz") #title on browser
 sl.write()
@@ -37,13 +38,15 @@ if sl.session_state.next:
 
         questioncorrectopt = sl.selectbox("Choose which multi choice answer is correct: ", [sl.session_state.questionanswers[0], sl.session_state.questionanswers[1], sl.session_state.questionanswers[2]], key="c")
 
-    if (sl.button("Add Question")):
-        sl.session_state.addq = True
+        if (sl.button("Add Question")):
+            sl.session_state.addq = True
 
-        if (sl.session_state.addq and sl.session_state.next):
-            Question.addQuestion(csvs, questiontext, questiondesc, questionanswers, questioncorrectopt)    
+        if (sl.session_state.addq):
+            sl.session_state.addq = False
+            Question.addQuestion(csvs, questiontext, questiondesc, sl.session_state.questionanswers, questioncorrectopt)    
+            sl.success
         
-    #else:
-    #    username = sl.text_input("Enter Name: ") #get name and set to username var
-    #    # difficultylist = [1, 2, 3, 4] test
-    #    difficulty = sl.select_slider("Select Difficulty", Question.getDifficultiesAsList) #change to Question.getDifficultiesAsList
+    else:
+        username = sl.text_input("Enter Name: ") #get name and set to username var
+        # difficultylist = [1, 2, 3, 4] test
+        difficulty = sl.select_slider("Select Difficulty", Question.getDifficultiesAsList) #change to Question.getDifficultiesAsList

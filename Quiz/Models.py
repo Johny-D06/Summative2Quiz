@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from Quiz.CSVStorage import CSVWriter
+from Quiz.CSVStorage import CSVWriter, CSVReader
 
 class Question:
 
@@ -12,6 +12,9 @@ class Question:
         self.answernum = answernum
         #self.difficulty = difficulty #should be at least 1
         Question.allQuestions.append(self)
+
+    def loadAllQuestions(filename):
+        CSVReader.readFromFile(filename)
 
     def checkAnswer(self, useranswer): # returns a bool true if correct false if otherwise
         if(useranswer == self.answer):
@@ -39,7 +42,7 @@ class Question:
     
     def addQuestion(csvs: CSVWriter, questiontext, questionsubject, questionanswers, questionanswernum):
         csvs.writeToFile(f"{questiontext},{questionsubject},{questionanswers[0]},{questionanswers[1]},{questionanswers[2]},{questionanswernum}")
-        temp = Question(text=questiontext, )
+        temp = Question(text=questiontext, subject=questionsubject, answers=questionanswers, answernum=questionanswernum)
         
 
 
