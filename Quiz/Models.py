@@ -15,6 +15,7 @@ class Question:
         Question.allQuestions.append(self)
 
     def loadAllQuestions(filename):
+        """loads all questions from the csv file"""
         csvr = CSVReader()
         csvr.readQuestionFromFile(filenameloc=filename)
 
@@ -26,6 +27,7 @@ class Question:
 
     
     def  getMaxDifficulty(): #checks every question to get the highest difficulty rating
+        """Gets the max difficulty in all Questions in the csv file """
         temp = 0
         for question in Question.allQuestions:
             if question.difficulty > temp:
@@ -33,6 +35,7 @@ class Question:
         return temp
     
     def getDifficultiesAsList(): #will add each difficulty option to a list for a streamlit cmd to look at
+        """puts each difficulty into a list for use on streamlit"""
         difficultylist = []
 
         count = 0
@@ -43,6 +46,7 @@ class Question:
         return difficultylist
     
     def addQuestion(csvs: CSVWriter, questiontext, questionsubject, questionanswers, questionanswernum, questiondifficulty):
+        """adds a question to the csv reader and to the current running instance"""
         csvs.writeToFile(f"{questiontext},{questionsubject},{questionanswers[0]},{questionanswers[1]},{questionanswers[2]},{questionanswernum},{questiondifficulty}")
         temp = Question(text=questiontext, subject=questionsubject, answers=questionanswers, answernum=questionanswernum, difficulty=questiondifficulty)
         
@@ -53,6 +57,7 @@ class Question:
 class Session:
     
     sessionQuestions = []
+    """adds all the questions in the current session (usually definded by difficulty) that will be asked to the user"""
 
     def __init__(self, userdifficulty): #constructor to setup Session
         self.correctanswers = [] #instantiated for future class
@@ -62,9 +67,11 @@ class Session:
                 self.sessionQuestions.append(question)
 
     def getScore(self):
+        """Adds a score for correct questinons"""
         score = sum(2 for question in self.questions if question.checkAnswer) #adds 2 point per correct question, uses function checkAnswer to make sure each question is correct
         return score
 
-    def addCorrectQuestion(self, correctquestion):        
+    def addCorrectQuestion(self, correctquestion):
+        """adds a correct question to a session instance so that they can be reviewed or saved at the end"""
         self.correctanswers.append(correctquestion)
 

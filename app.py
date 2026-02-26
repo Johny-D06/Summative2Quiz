@@ -28,29 +28,29 @@ if "addq" not in sl.session_state:
 if sl.button("Confirm"):
     sl.session_state.next = True
 
-if sl.session_state.next:
+if sl.session_state.next: #user presses next
 
-    if(action == "Add Question"):
+    if(action == "Add Question"): #continues if add question is selected
         questiontext = sl.text_input("Enter Question Text: ", key="q")
         questiondesc = sl.text_input("Enter Topic", key="t")
 
         if "questionanswers" not in sl.session_state:
-            sl.session_state.questionanswers = ["", "", ""]
+            sl.session_state.questionanswers = ["", "", ""] #instantiating the answer list with size 3
 
         for i in range(3):
-            sl.session_state.questionanswers[i] = (sl.text_input(f"Enter multi choice answer {i+1}: ", key=f"i{i}"))
+            sl.session_state.questionanswers[i] = (sl.text_input(f"Enter multi choice answer {i+1}: ", key=f"i{i}")) #asks for each answer
 
         questioncorrectopt = sl.selectbox("Choose which multi choice answer is correct: ", [sl.session_state.questionanswers[0], sl.session_state.questionanswers[1], sl.session_state.questionanswers[2]], key="c")
 
-        difficulties = [1, 2, 3, 4]
-        questiondifficulty = sl.select_slider("Difficulty", difficulties)
+        difficulties = [1, 2, 3, 4] #could be changed to dynamic? becomes an issue if dynamic but no difficulty exists in the csv file
+        questiondifficulty = sl.select_slider("Difficulty", difficulties) #slider for difficulty
 
-        if (sl.button("Add Question")):
+        if (sl.button("Add Question")): #will add the question if true
             sl.session_state.addq = True
 
-        if (sl.session_state.addq):
+        if (sl.session_state.addq): #selection to add the question
             sl.session_state.addq = False
-            Question.addQuestion(csvs, questiontext, questiondesc, sl.session_state.questionanswers, questioncorrectopt, questiondifficulty)    
+            Question.addQuestion(csvs, questiontext, questiondesc, sl.session_state.questionanswers, questioncorrectopt, questiondifficulty) #models.question.addquestion
             sl.success
         
     else:
@@ -62,14 +62,14 @@ if sl.session_state.next:
 
         #selecteddifficulty = 0
 
-        if not sl.session_state.beginquiz:
+        if not sl.session_state.beginquiz: #quiz start selected instead
             name = sl.text_input("Enter Name")
             selecteddifficulty = sl.select_slider("Select Difficulty", Question.getDifficultiesAsList()) #change to Question.getDifficultiesAsList 
 
             if sl.button("Begin Quiz"):
                 sl.session_state.beginquiz = True
-                sl.session_state.selecteddifficulty = selecteddifficulty
-        else:            
+                sl.session_state.selecteddifficulty = selecteddifficulty #adds to the current sl instance
+        else:
 
             if "session" not in sl.session_state:
                 sl.session_state.session = Session(sl.session_state.selecteddifficulty)
@@ -80,7 +80,7 @@ if sl.session_state.next:
                 sl.session_state.questionindex = 0
 
 
-            if sl.session_state.questionindex >= len(CurrentSession.sessionQuestions):
+            if sl.session_state.questionindex >= len(CurrentSession.sessionQuestions): #when all questions are answered
                 #sl.write(f"lentest: {len(CurrentSession.sessionQuestions)}") #debug purposes
                 #sl.write(f"lentest: {len(Question.allQuestions)}") #debug purposes
                 sl.write("Quiz Over")
@@ -90,7 +90,7 @@ if sl.session_state.next:
                     sl.write(f"{q.text} | {q.answer}") #writes all questions and answers that were correct
                 
                 sl.session_state.beginquiz = False
-                sl.stop()
+                sl.stop() #ends the current sl instance
 
             currentquestion = CurrentSession.sessionQuestions[sl.session_state.questionindex] #local var set to the session var
             sl.write(currentquestion.text) #writes q out
