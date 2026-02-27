@@ -5,11 +5,11 @@ class Question:
 
     allQuestions = []
 
-    def __init__(self, text, subject, answers, answernum, difficulty): #constructor to create a question, will get from csv file
+    def __init__(self, text, subject, answers, correctanswer, difficulty): #constructor to create a question, will get from csv file
         self.text = text
         self,subject
         self.answers = answers
-        self.answernum = answernum
+        self.correctanswer = correctanswer
         self.difficulty = int(difficulty)
         #self.difficulty = difficulty #should be at least 1
         Question.allQuestions.append(self)
@@ -20,7 +20,15 @@ class Question:
         csvr.readQuestionFromFile(filenameloc=filename)
 
     def checkAnswer(self, useranswer): # returns a bool true if correct false if otherwise
-        if(useranswer == self.answer):
+
+        count = 0
+        for answer in self.answers:
+
+            if (answer == self.correctanswer):
+                break
+            count += 1
+
+        if(useranswer == self.answers[count]):
             return True
         else:
             return False
@@ -48,7 +56,7 @@ class Question:
     def addQuestion(csvs: CSVWriter, questiontext, questionsubject, questionanswers, questionanswernum, questiondifficulty):
         """adds a question to the csv reader and to the current running instance"""
         csvs.writeToFile(f"{questiontext},{questionsubject},{questionanswers[0]},{questionanswers[1]},{questionanswers[2]},{questionanswernum},{questiondifficulty}")
-        temp = Question(text=questiontext, subject=questionsubject, answers=questionanswers, answernum=questionanswernum, difficulty=questiondifficulty)
+        temp = Question(text=questiontext, subject=questionsubject, answers=questionanswers, correctanswer=questionanswernum, difficulty=questiondifficulty)
         
 
 
