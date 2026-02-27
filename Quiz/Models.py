@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 from Quiz.CSVStorage import CSVWriter, CSVReader
 
 class Question:
@@ -77,10 +76,10 @@ class Session:
 
     def getScore(self):
         """Adds a score for correct questinons"""
-        score = sum(2 for question in self.questions if question.checkAnswer) #adds 2 point per correct question, uses function checkAnswer to make sure each question is correct
+        score = sum(int(self.difficulty) for question in self.questions if question.checkAnswer) #adds the difficulty value as an int per correct question, uses function checkAnswer to make sure each question is correct
         return score
 
-    def addCorrectQuestion(self, correctquestion):
+    def addCorrectQuestion(self, correctquestion = Question):
         """adds a correct question to a session instance so that they can be reviewed or saved at the end"""
         self.correctanswers.append(correctquestion)
 

@@ -1,5 +1,4 @@
 import csv
-from pathlib import Path
 
 
 class CSVWriter(): #will make in the form "question,answer,difficulty,topic"
