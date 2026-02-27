@@ -10,4 +10,4 @@ def test_csvreader():
 
     csvr = CSVReader() #intialized
     csvr.readQuestionFromFile(filenameloc=testfilename) #csv reader reads the question and creates a question using constructor, this includes adding it to allquestions[]
-    assert len(Question.allQuestions) == 1 #checks a question was made
+    assert len(Question.allQuestions) == 1 #checks a question was made for test
