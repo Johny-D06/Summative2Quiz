@@ -5,7 +5,7 @@ from Quiz.Models import Question
 
 testfilename = "QuizData/QuestionForTest.csv"
 
-def testcsvreader():
+def test_csvreader():
     """tests that the csvreader works as intended"""
 
     csvr = CSVReader() #intialized
