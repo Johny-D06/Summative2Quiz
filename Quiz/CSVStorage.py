@@ -19,10 +19,10 @@ class CSVReader():
         with open(filenameloc, "r") as file:
             rdr = csv.reader(file)            
             for line in rdr:
-                qtext = line[0]
-                qsubj = line[1]
-                qans = line[2:5]
-                qansnum = qans.index(line[5])
-                qdif = int(line[6].replace("Difficulty ", "")) #remove difficulty from the line, not sure why its doing this? csv stores as 'n'?
-                tempquestion = Question(text=qtext, subject=qsubj, answers=qans, correctanswer=qansnum, difficulty=qdif)
+                questext = line[0]
+                quessubj = line[1]
+                quesans = line[2:5]
+                quesansnum = quesans.index(line[5])
+                quesdif = int(line[6].replace("Difficulty ", "")) #remove difficulty from the line, not sure why its doing this? csv stores as 'n'?
+                tempquestion = Question(text=questext, subject=quessubj, answers=quesans, correctanswer=quesansnum, difficulty=quesdif)
                 #questions.append(tempquestion) #should not need to append due to the constructor on Question

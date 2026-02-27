@@ -19,10 +19,10 @@ sl.write()
 action = sl.selectbox("Choose Action", ["Start Quiz", "Add Question"])
 
 
-if "next" not in sl.session_state:
+if "next" not in sl.session_state: #initial setup for the streamlit session variable "next"
     sl.session_state.next = False
 
-if "addq" not in sl.session_state:
+if "addq" not in sl.session_state: #setup for the streamlit session related var, will be used for adding the question
     sl.session_state.addq = False
 
 if sl.button("Confirm"):
