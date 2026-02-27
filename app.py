@@ -86,8 +86,8 @@ if sl.session_state.next: #user presses next
                 sl.write("Quiz Over")
                 sl.write("")
                 sl.write("Correct answers:")
-                for q in CurrentSession.correctanswers: #grabs all correct answers
-                    sl.write(f"{q.text} | {q.answer}") #writes all questions and answers that were correct
+                for q in CurrentSession.correctanswers: #grabs all correct answers                    
+                    sl.write(f"{q.text} | {q.correctanswer}") #writes all questions and answers that were correct
                 
                 sl.session_state.beginquiz = False
                 sl.stop() #ends the current sl instance
@@ -95,7 +95,7 @@ if sl.session_state.next: #user presses next
             currentquestion = CurrentSession.sessionQuestions[sl.session_state.questionindex] #local var set to the session var
             sl.write(currentquestion.text) #writes q out
             useranswer = sl.radio("Choose", currentquestion.answers) #selection box for the answers
-            if(useranswer == currentquestion.answernum): # answer correct
+            if(CurrentSession.sessionQuestions[sl.session_state.questionindex].checkAnswer(useranswer)): # answer correct #CurrentSession.sessionQuestions[sl.session_state.questionindex].checkAnswer(useranswer)
                 CurrentSession.addCorrectQuestion(CurrentSession.sessionQuestions[sl.session_state.questionindex])
 
 

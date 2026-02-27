@@ -7,7 +7,7 @@ class Question:
 
     def __init__(self, text, subject, answers, correctanswer, difficulty): #constructor to create a question, will get from csv file
         self.text = text
-        self,subject
+        self.subject = subject
         self.answers = answers
         self.correctanswer = correctanswer
         self.difficulty = int(difficulty)
@@ -28,7 +28,7 @@ class Question:
                 break
             count += 1
 
-        if(useranswer == self.answers[count]):
+        if(useranswer == self.correctanswer):
             return True
         else:
             return False
@@ -65,6 +65,7 @@ class Question:
 class Session:
     
     sessionQuestions = []
+    correctanswers = []
     """adds all the questions in the current session (usually definded by difficulty) that will be asked to the user"""
 
     def __init__(self, userdifficulty): #constructor to setup Session
